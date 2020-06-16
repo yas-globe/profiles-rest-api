@@ -5,6 +5,8 @@ from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import filters
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.settings import api_settings
 
 from profiles_api import serializers
 from profiles_api import models
@@ -107,9 +109,16 @@ class HelloViewSet(viewsets.ViewSet):
 
 class UserProfileViewSet(viewsets.ModelViewSet):
     """Handle creating and updating profiles"""
-    serializer_class = serializers.UserProfileSerializer
-    queryset = models.UserProfile.objects.all()
-    authentication_classes = (TokenAuthentication,)  # add a comma to save it as a tuple
-    permission_classes = (permissions.UpdateOwnProfile,)  # pass through permissions to check if user has permission
-    filter_backends = (filters.SearchFilter,)  # comma for tuple
-    search_fields = ('name', 'email', )  # what fields to search
+    serializer_class = serializers.UserProfileSerializer  # query users
+    queryset = models.UserProfile.objects.all()  # query users
+    authentication_classes = (TokenAuthentication,)  # Auth Per - add a comma to save it as a tuple
+    permission_classes = (permissions.UpdateOwnProfile,)  # Auth Per -  pass through permissions to check if user has permission
+    filter_backends = (filters.SearchFilter,)  # fitler - comma for tuple
+    search_fields = ('name', 'email', )  # filter - what fields to search
+
+
+# ObtainAuthToken can be used directly in the urls, but we will override this here to see what happens via API
+class UserLoginApiView(ObtainAuthToken):
+    """Handle creating user authentication tokens"""
+    renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
+
