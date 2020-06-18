@@ -9,7 +9,8 @@ PROJECT_BASE_PATH='/usr/local/apps/profiles-rest-api'
 
 echo "Installing dependencies..."
 apt-get update
-apt-get install -y python3-dev python3-venv sqlite python-pip python3-dev libpq-dev postgresql postgresql-contrib supervisor nginx git
+export DEBIAN_FRONTEND=noninteractive
+apt-get install -y libpq-dev python3-dev python3-venv sqlite python-pip python3-dev postgresql postgresql-contrib supervisor nginx git
 
 # Create project directory
 mkdir -p $PROJECT_BASE_PATH
