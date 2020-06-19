@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import dj_database_url
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -29,7 +30,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
     #'ec2-13-229-118-44.ap-southeast-1.compute.amazonaws.com',
-    '127.0.0.1', '.herokuapp.com'
+    '127.0.0.1', 'profiles-rest-api-yas-globe.herokuapp.com/'
 ]
 
 
@@ -136,11 +137,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
 
 # Uses profiles_api.UserProfile(class) when handling creating new user
 AUTH_USER_MODEL = 'profiles_api.UserProfile'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+django_heroku.settings(locals())
